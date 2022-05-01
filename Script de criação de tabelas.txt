@@ -1,0 +1,94 @@
+create table Cliente(
+	num_id int primary key,
+	nome varchar[30] not null,
+	idade int not null
+);
+
+create table Zoologico(
+	cnpj int primary key,
+	numero int not null,
+	nome varchar[30] not null,
+	bairro varchar[30] not null,
+	rua varchar[30] not null,
+	custo_mensal decimal(10,2)
+);
+
+create table Loja(
+	cnpj int primary key,
+	vendas_diarias decimal(5,2),
+	vendas_mensais decimal(10,2),
+	custo_mensal decimal(10,2)
+);
+
+create table Bilheteria(
+	numero int primary key,
+	vendas_diarias decimal(5,2),
+	vendas_mensais decimal(10,2),
+	clientes_mensais int,
+	clientes_diarios int
+);
+
+create table Atracao(
+	nome varchar[30] primary key,
+	tipo varchar[10] not null
+);
+
+create table Especie(
+	nome varchar[30] primary key,
+	quantia int not null,
+	dieta varchar[50] not null,
+	tipo char not null
+);
+
+create table idM(
+	num_id int primary key,
+	hist_vac varchar[50]
+);
+
+create table Macho(
+	nome varchar[30] not null,
+	quantia int not null,
+	num_id int,
+	
+	foreign key (num_id) references idM(num_id),
+	foreign key (nome) references Especie(nome),
+	foreign key (quantia) references Especie(quantia)
+);
+create table idF(
+	num_id int primary key,
+	hist_vac varchar[50],
+	quantia_filhotes int,
+	data_apresentacao date
+);
+
+create table Femea(
+	nome varchar[30] not null,
+	quantia int not null,
+	num_id int,
+	
+	foreign key (num_id) references idF(num_id),
+	foreign key (quantia) references Especie(quantia),
+	foreign key (nome) references Especie(nome)
+	
+);
+create table compra(
+	num_bilheteria int,
+	num_id int,
+	
+	foreign key (num_bilheteria) references Bilheteria(numero),
+	foreign key (num_id) references Cliente(num_id)
+);
+
+create table ingresso(
+	preco int not null,
+	cnpj int not null,
+	nome varchar[30] not null,
+	num_id int not null,
+	numero int not null,
+	
+	foreign key (num_id) references Cliente(num_id),
+	foreign key (cnpj) references Loja(cnpj),
+	foreign key (nome) references Atracao(nome),
+	foreign key (numero) references Bilheteria(numero)
+);
+
